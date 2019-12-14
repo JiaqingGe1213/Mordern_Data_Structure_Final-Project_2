@@ -1,0 +1,66 @@
+---
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+```
+## Example
+
+Using this line, you can load the dataset. 
+
+```{r example}
+library(FriendsScripts)
+```
+
+
+## Here are some descriptive information about this dataset
+
+### 1. average number of scenes across all episodes
+```{r}
+library(dplyr)
+friends_lines %>%
+  group_by(episodes_id) %>%
+  summarize(max = max(scene2)) %>% ungroup() %>%
+  summarize(avg_scenes = mean(max))
+```
+
+### 2. line count by episode
+```{r}
+friends_lines %>% filter(type %in% c("person", "scene")) %>% count(episodes_id) %>% arrange(n)
+```
+
+### 3. total number of scenes 
+```{r}
+friends_lines %>%
+  group_by(episodes_id) %>%
+  count(scene2) %>% 
+  summarize(max = max(scene2)) %>% 
+  arrange(max) %>% ungroup() %>%
+  summarize(num_scenes = sum(max))
+```
+
+## Data vitualizaiton
+
+### 1. Lines by episode over time
+```{r}
+library(ggplot2)
+main_char <- c("chandler", "ross", "monica", "phoebe", "joey", "rachel")
+friends_lines %>% 
+  filter(person %in% main_char) %>%
+  count(person, episodes_id, sort = TRUE) %>%
+  mutate(new_id = as.factor(episodes_id)) %>%
+    ggplot(aes(x = new_id, y = n)) +
+    geom_point(aes(colour = person), size = 0.5, alpha = 0.8) +
+    geom_smooth(stat = "smooth", se = FALSE, method = "auto", aes(group = person, colour = person), alpha = 0.8) + 
+    scale_fill_brewer(palette = "Dark2") +
+    ggtitle("Friends - Number of Lines by Episode")
+```

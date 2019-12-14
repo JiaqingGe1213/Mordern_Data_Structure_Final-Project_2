@@ -1,0 +1,24 @@
+Package: FriendsScripts
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Authors@R: person("Jiaqing", "Ge", email = "jg4185@columbia.edu",
+  role = c("aut", "cre"))
+Depends:
+    R (>= 2.10)
+Description: This dataset is built from TV series transcripts friends. It contains the lines each character speak, name of the speakers, 
+    scene number when the dialogue take places. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Suggests:
+    rvest,
+    dplyr,
+    xml2,
+    httr,
+    htm2txt,
+    stringr,
+    knitr,
+    rmarkdown
+RoxygenNote: 6.1.1
+VignetteBuilder: knitr
